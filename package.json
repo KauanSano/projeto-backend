@@ -1,0 +1,19 @@
+{
+  "name": "projeto-back",
+  "version": "1.0.0",
+  "description": "projeto final disciplina web back-end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KauanSano/projeto-back-end"
+  },
+  "author": "kauan sano",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
