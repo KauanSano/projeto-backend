@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 require('dotenv').config();
-const router = require('index')
 const app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
