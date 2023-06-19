@@ -13,7 +13,7 @@ const UserModel = sequelize.define("Users", {
 
 module.exports = {
   list: async function () {
-    const User = await UserModel.findAll();
+    var User = await UserModel.findAll();
     return User;
   },
   save: async function (username, isAdmin) {
@@ -24,6 +24,13 @@ module.exports = {
 
     return User;
   },
-
+  getUserById: async function (id) {
+    var User = await UserModel.findOne({ where: { id: id } });
+    if (User) {
+      return User;
+    } else {
+      return null;
+    }
+  },
   Model: UserModel,
 };

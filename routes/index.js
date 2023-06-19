@@ -15,4 +15,9 @@ router.get("/users", async (req, res) => {
   else res.status(404).json({ message: "nao foi possivel achar o usuario" });
 });
 
+router.post("login", async (req, res) => {
+  var user = req.params;
+  res.end();
+});
+
 module.exports = router;

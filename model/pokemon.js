@@ -22,6 +22,21 @@ module.exports = {
 
     return Pokemon;
   },
-
+  returnById: async function (id) {
+    var Pokemon = await PokemonModel.findOne({ where: { id: id } });
+    if (Pokemon) {
+      return Pokemon;
+    } else {
+      return null;
+    }
+  },
+  returnByName: async function (name) {
+    var Pokemon = await PokemonModel.findOne({ where: { name: name } });
+    if (Pokemon) {
+      return Pokemon;
+    } else {
+      return null;
+    }
+  },
   Model: PokemonModel,
 };

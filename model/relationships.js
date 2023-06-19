@@ -4,6 +4,8 @@ const sequelize = require("../helpers/db");
 const { DataTypes } = require("sequelize");
 const pokemon = require("./pokemon");
 
+//adicionar paginacao
+
 const PokemonTypes = sequelize.define("PokemonTypes", {
   PokeId: {
     type: DataTypes.INTEGER,
@@ -39,6 +41,9 @@ module.exports = {
     });
     return rel;
   },
-
+  list: async function () {
+    var relationships = await PokemonTypes.findAll();
+    return relationships;
+  },
   Model: PokemonTypes,
 };
