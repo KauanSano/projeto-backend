@@ -7,7 +7,14 @@ const PokemonModel = sequelize.define("Pokemon", {
     autoIncrement: true,
     primaryKey: true,
   },
-  name: DataTypes.STRING,
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isAlpha: true, //conforme documentacao do sequelize: so permitirá letras. nenhum pokemon tem numero no nome.
+      len: [1, 25],
+    },
+  },
 });
 
 module.exports = {

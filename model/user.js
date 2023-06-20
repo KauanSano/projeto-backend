@@ -8,6 +8,7 @@ const UserModel = sequelize.define("Users", {
     primaryKey: true,
   },
   username: DataTypes.STRING,
+  password: DataTypes.STRING,
   isAdmin: DataTypes.BOOLEAN,
 });
 
@@ -15,6 +16,14 @@ module.exports = {
   list: async function () {
     var User = await UserModel.findAll();
     return User;
+  },
+  getByUsername: async function (name) {
+    var User = await UserModel.findOne({ where: { username: name } });
+    if (User) {
+      return User;
+    } else {
+      return null;
+    }
   },
   save: async function (username, isAdmin) {
     const User = await UserModel.create({

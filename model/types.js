@@ -7,7 +7,14 @@ const TypesModel = sequelize.define("Types", {
     autoIncrement: true,
     primaryKey: true,
   },
-  typeName: DataTypes.STRING,
+  typeName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isAlpha: true, //apenas permite letras
+      len: [1, 20],
+    },
+  },
 });
 
 //mudar os console.log para json!

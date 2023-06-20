@@ -43,11 +43,13 @@ router.get("/install", async (req, res) => {
   await relationships.save(5, await TypeModel.getByName("normal"));
   let typeId = await TypeModel.getByName("aaaaa");
   console.log(typeId);
+  await relationships.listWithPokemonsAndTypes();
   res.json({
     message: "success",
     objUm: await UserModel.list(),
     objDois: await TypeModel.list(),
     objTres: await PokeModel.list(),
+    objQuatro: await relationships.list(),
   });
 });
 
