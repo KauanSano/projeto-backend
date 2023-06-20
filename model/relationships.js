@@ -9,13 +9,23 @@ const pokemon = require("./pokemon");
 const PokemonTypes = sequelize.define("PokemonTypes", {
   PokeId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
     references: {
       model: pokemonDAO.Model,
       key: "id",
     },
   },
-  TypeId: {
+  MainTypeId: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: typesDAO.Model,
+      key: "id",
+    },
+  },
+  SecondaryTypeId: {
+    type: DataTypes.INTEGER,
+    allowNull: true, //o pokemon pode NAO ter um segundo tipo. caso seja vazio, basta devolver outro valor no SELECT.
     references: {
       model: typesDAO.Model,
       key: "id",
@@ -25,25 +35,48 @@ const PokemonTypes = sequelize.define("PokemonTypes", {
 
 module.exports = {
   relationshipInit: async function () {
+    pokemonDAO.Model.hasMany(typesDAO.Model, {
+      through: "PokemonTypes",
+      foreignKey: "pokemonTypes",
+    });
     typesDAO.Model.belongsToMany(pokemonDAO.Model, {
       through: "PokemonTypes",
       foreignKey: "typesPokemon",
     });
-    pokemonDAO.Model.belongsToMany(typesDAO.Model, {
-      through: "PokemonTypes",
-      foreignKey: "pokemonTypes",
-    });
   },
-  save: async function (pokeId, typeId) {
+  save: async function (pokeId, mainTypeId, secTypeId) {
     const rel = await PokemonTypes.create({
       PokeId: pokeId,
-      TypeId: typeId,
+      MainTypeId: mainTypeId,
+      SecondaryTypeId: secTypeId,
     });
     return rel;
   },
   list: async function () {
+    //vai listar so os ids das relacoes, sem trazer os pokemons e os tipos.
     var relationships = await PokemonTypes.findAll();
     return relationships;
+  },
+  listWithPokemonsAndTypes: async function () {
+    /*
+    let relSheet = await pokemonDAO.Model.findAll({
+      include: [
+        {
+          model: typesDAO.Model,
+        },
+      ],
+    });
+    */
+    /*
+    for (let i = 0; i < relationships.length; i++) {
+      relSheet = [
+        await pokemonDAO.returnById(relationships[i].PokeId),
+        await typesDAO.getById(relationships[i].MainTypeId),
+        await typesDAO.getById(relationships[i].SecondaryTypeId),
+      ];
+    }
+    */
+    console.log(relSheet);
   },
   Model: PokemonTypes,
 };
