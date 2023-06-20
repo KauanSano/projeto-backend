@@ -58,25 +58,21 @@ module.exports = {
     return relationships;
   },
   listWithPokemonsAndTypes: async function () {
+    PokemonTypes.forEach((teste) => {});
     /*
-    let relSheet = await pokemonDAO.Model.findAll({
-      include: [
-        {
-          model: typesDAO.Model,
-        },
-      ],
-    });
-    */
-    /*
-    for (let i = 0; i < relationships.length; i++) {
+    var relSheet = [];
+    for (let i = 1; i < PokemonTypes.length; i++) {
       relSheet = [
-        await pokemonDAO.returnById(relationships[i].PokeId),
-        await typesDAO.getById(relationships[i].MainTypeId),
-        await typesDAO.getById(relationships[i].SecondaryTypeId),
+        {
+          pokemon: await pokemonDAO.returnById(PokemonTypes[i].PokeId),
+          tipo: await typesDAO.getById(PokemonTypes[i].MainTypeId),
+          tipoDois: await typesDAO.getById(PokemonTypes[i].SecondaryTypeId),
+        },
       ];
     }
+    return relSheet;
     */
-    console.log(relSheet);
+    console.log("nao funciona");
   },
   Model: PokemonTypes,
 };

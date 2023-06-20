@@ -1,7 +1,6 @@
 const UserModel = require("../model/user");
 const PokeModel = require("../model/pokemon");
 const TypeModel = require("../model/types");
-const relationships = require("../model/relationships");
 const express = require("express");
 const router = express.Router();
 const db = require("./db");
@@ -10,13 +9,12 @@ const db = require("./db");
 
 router.get("/install", async (req, res) => {
   await db.sync({ force: true });
-  relationships.relationshipInit;
   let pokemons = [
-    { name: "pikachu" },
-    { name: "squirtle" },
-    { name: "charmander" },
-    { name: "bulbasaur" },
-    { name: "eevee" },
+    { name: "pikachu", mainTypeId: 1, secondaryTypeId: null },
+    { name: "squirtle", mainTypeId: 5, secondaryTypeId: null },
+    { name: "charmander", mainTypeId: 4, secondaryTypeId: null },
+    { name: "bulbasaur", mainTypeId: 3, secondaryTypeId: null },
+    { name: "eevee", mainTypeId: 2, secondaryTypeId: null },
   ];
   let types = [
     { name: "electric" },
@@ -27,29 +25,23 @@ router.get("/install", async (req, res) => {
   ];
   let user = {
     name: "Um",
+    password: "1234",
     admin: "false",
   };
-  for (let i = 0; i < pokemons.length; i++) {
-    await PokeModel.save(pokemons[i].name);
-  }
-  for (let j = 0; j < types.length; j++) {
-    await TypeModel.save(types[j].name);
-  }
-  await UserModel.save(user.name, user.admin);
-  await relationships.save(1, await TypeModel.getByName("electric"));
-  await relationships.save(2, await TypeModel.getByName("water"));
-  await relationships.save(3, await TypeModel.getByName("fire"));
-  await relationships.save(4, await TypeModel.getByName("grass"));
-  await relationships.save(5, await TypeModel.getByName("normal"));
+  types.forEach(async (aux) => {
+    await TypeModel.save(aux.name);
+  });
+  pokemons.forEach(async (aux) => {
+    await PokeModel.save(aux.name, aux.mainTypeId, aux.secondaryTypeId);
+  });
+  await UserModel.save(user.name, user.password, user.admin);
   let typeId = await TypeModel.getByName("aaaaa");
   console.log(typeId);
-  await relationships.listWithPokemonsAndTypes();
   res.json({
     message: "success",
     objUm: await UserModel.list(),
     objDois: await TypeModel.list(),
     objTres: await PokeModel.list(),
-    objQuatro: await relationships.list(),
   });
 });
 

@@ -22,10 +22,10 @@ router.get("/users", async (req, res) => {
   else res.status(404).json({ message: "Lista de usuários vazia." });
 });
 
-router.post("login", async (req, res) => {
+router.post("/login", async (req, res) => {
   var { username, password } = req.body;
-  let loggedUser = UserDAO.getByUsername(username);
-  if (loggedUser != NULL && loggedUser.password === password) {
+  let loggedUser = await UserDAO.getByUsername(username);
+  if (loggedUser != null && loggedUser.password == password) {
     //geracao de token de acordo com exemplo dado em aula com verificacao de senha
     let tokenjwt = jwt.sign({ user: loggedUser }, process.env.JWT_SECRET, {
       expiresIn: "30 min",

@@ -1,6 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../helpers/db");
 
+//adicionar validacoes usuarios
+
 const UserModel = sequelize.define("Users", {
   uid: {
     type: DataTypes.INTEGER,
@@ -25,9 +27,10 @@ module.exports = {
       return null;
     }
   },
-  save: async function (username, isAdmin) {
+  save: async function (username, password, isAdmin) {
     const User = await UserModel.create({
       username: username,
+      password: password,
       isAdmin: isAdmin,
     });
 

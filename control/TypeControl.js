@@ -1,27 +1,5 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../helpers/db");
-
-const TypesModel = sequelize.define("Types", {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  typeName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    get() {
-      return this.getDataValue("typeName");
-    },
-    validate: {
-      isAlpha: true, //apenas permite letras
-      len: [1, 20],
-    },
-  },
-});
-
-//mudar os console.log para json!
-
+//remover console log
+const TypesModel = require("../model/types");
 module.exports = {
   list: async function () {
     const Type = await TypesModel.findAll();
@@ -50,15 +28,6 @@ module.exports = {
       return null;
     } else {
       return obj;
-    }
-  },
-  getNameById: async function (id) {
-    var name = await TypesModel.findOne({ where: { id: id } });
-    if (name === null) {
-      console.log("Objeto nao encontrado! ");
-      return null;
-    } else {
-      return name;
     }
   },
   Model: TypesModel,
