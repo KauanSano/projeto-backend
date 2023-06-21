@@ -4,11 +4,11 @@ a ênfase do projeto final da disciplina é a lógica da manipulação dos dados
 na criação de rotas e etc. para isso tudo isso, utilizei do: Node.JS, Express.js, e Sequelize.js (ligado ao POSTGRES.)
 o front-end tem bastante foco na manipulação direta de DOM e deve suportar CRUD. 
 <br /> para acessar o banco de dados, é necessário adicionar as seguintes chaves em um arquivo .env: <br />
-DB_DIALECT,
-DB_NAME,
-DB_HOST, (provavelmente será localhost)
-DB_PORT, (provavelmente 5432)
-DB_USER,
-DB_PASSWORD,
-APP_PORT,
-JWT_SECRET. (necessario para a criacao de tokens)
+DB_DIALECT, <br />
+DB_NAME, <br />
+DB_HOST, (provavelmente será localhost) <br />
+DB_PORT, (provavelmente 5432) <br />
+DB_USER, <br />
+DB_PASSWORD, <br />
+APP_PORT, <br />
+JWT_SECRET. (necessario para a criacao de tokens) <br />
