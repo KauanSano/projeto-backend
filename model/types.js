@@ -7,7 +7,7 @@ const TypesModel = sequelize.define("Types", {
     autoIncrement: true,
     primaryKey: true,
   },
-  typeName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
     get() {
@@ -20,45 +20,46 @@ const TypesModel = sequelize.define("Types", {
   },
 });
 
-//mudar os console.log para json!
-
 module.exports = {
   list: async function () {
     const Type = await TypesModel.findAll();
     return Type;
   },
   save: async function (name) {
-    const Type = await TypesModel.create({
-      typeName: name,
-    });
-
-    return Type;
+    try {
+      const Type = await TypesModel.create({
+        name: name,
+      });
+      return Type;
+    } catch (e) {
+      console.log(`Houve um erro ao tentar salvar o tipo: ${e}`);
+      return null;
+    }
   },
-  getByName: async function (name) {
-    var Type = await TypesModel.findOne({ where: { typeName: name } });
-    if (Type === null) {
-      console.log("Tipo nao encontrado! ");
-      return 0;
-    } else {
+  getIdByName: async function (name) {
+    try {
+      var Type = await TypesModel.findOne({ where: { name: name } });
       return Type.id;
+    } catch (e) {
+      return e.message;
     }
   },
   getById: async function (id) {
     var obj = await TypesModel.findOne({ where: { id: id } });
     if (obj === null) {
-      console.log("Objeto nao encontrado! ");
+      console.log("Não foi possível achar o objeto de TIPO pelo ID. ");
       return null;
     } else {
       return obj;
     }
   },
   getNameById: async function (id) {
-    var name = await TypesModel.findOne({ where: { id: id } });
-    if (name === null) {
-      console.log("Objeto nao encontrado! ");
-      return null;
+    //alternando os select de where para findbypk, como exemplo
+    var type = await TypesModel.findByPk(id);
+    if (type === null) {
+      console.log("Erro ao tentar procurar o tipo. ");
     } else {
-      return name;
+      return type.name;
     }
   },
   Model: TypesModel,

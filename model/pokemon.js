@@ -16,40 +16,29 @@ const PokemonModel = sequelize.define("Pokemon", {
       len: [1, 25],
     },
   },
-  mainTypeId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: types.Model,
-      key: "id",
-    },
-  },
-  secondaryTypeId: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    references: {
-      model: types.Model,
-      key: "id",
-    },
-  },
 });
 
-//PokemonModel.hasMany(types.Model);
-//types.Model.belongsTo(PokemonModel);
+PokemonModel.belongsToMany(types.Model, { through: "PokemonTypes" });
+types.Model.belongsToMany(PokemonModel, { through: "PokemonTypes" });
 
 module.exports = {
   list: async function () {
-    const Pokemon = await PokemonModel.findAll({ include: types.TypesModel });
+    const Pokemon = await PokemonModel.findAll({
+      include: {
+        model: types.Model, //join com a tabela de tipos
+        as: "Types",
+      },
+    });
     return Pokemon;
   },
-  save: async function (name, mainTypeId, secondaryTypeId) {
-    const Pokemon = await PokemonModel.create({
-      name: name,
-      mainTypeId: mainTypeId,
-      secondaryTypeId: secondaryTypeId,
-    });
-
-    return Pokemon;
+  save: async function (name) {
+    try {
+      const Pokemon = await PokemonModel.create({ name: name });
+      return Pokemon;
+    } catch (e) {
+      console.log(`Houve um erro tentando salvar o Pokémon: + ${e}`);
+      return null;
+    }
   },
   returnById: async function (id) {
     var Pokemon = await PokemonModel.findOne({ where: { id: id } });
@@ -67,5 +56,6 @@ module.exports = {
       return null;
     }
   },
+
   Model: PokemonModel,
 };

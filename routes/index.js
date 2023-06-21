@@ -1,6 +1,8 @@
 const express = require("express");
 var router = express.Router();
 const UserDAO = require("../model/user");
+const pokemonDAO = require("../model/pokemon");
+const typeDAO = require("../model/types");
 
 var jwt = require("jsonwebtoken");
 
@@ -37,6 +39,10 @@ router.post("/login", async (req, res) => {
       .status(403)
       .json({ status: false, message: "Erro ao tentar efetuar o log-in." });
   }
+});
+
+router.get("/pokedex", async (req, res) => {
+  res.end();
 });
 
 module.exports = router;
