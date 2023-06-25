@@ -41,7 +41,14 @@ module.exports = {
     }
   },
   returnById: async function (id) {
-    var Pokemon = await PokemonModel.findOne({ where: { id: id } });
+    var Pokemon = await PokemonModel.findAll({
+      //caso existam duplicados, retorna tb
+      where: { id: id },
+      include: {
+        model: types.Model,
+        as: "Types",
+      },
+    });
     if (Pokemon) {
       return Pokemon;
     } else {

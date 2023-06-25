@@ -24,25 +24,6 @@ router.get("/users", async (req, res) => {
   else res.status(404).json({ message: "Lista de usuários vazia." });
 });
 
-router.post("/login", async (req, res) => {
-  var { username, password } = req.body;
-  let loggedUser = await UserDAO.getByUsername(username);
-  if (loggedUser != null && loggedUser.password == password) {
-    //geracao de token de acordo com exemplo dado em aula com verificacao de senha
-    let tokenjwt = jwt.sign({ user: loggedUser }, process.env.JWT_SECRET, {
-      expiresIn: "30 min",
-    });
-    res.json({ status: true, token: tokenjwt }); //devolve o token para poder testar outras funcionalidades da api.
-  } else {
-    //erro login
-    res
-      .status(403)
-      .json({ status: false, message: "Erro ao tentar efetuar o log-in." });
-  }
-});
 
-router.get("/pokedex", async (req, res) => {
-  res.end();
-});
 
 module.exports = router;

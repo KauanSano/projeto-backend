@@ -11,7 +11,7 @@ const TypesModel = sequelize.define("Types", {
     type: DataTypes.STRING,
     allowNull: false,
     get() {
-      return this.getDataValue("typeName");
+      return this.getDataValue("name");
     },
     validate: {
       isAlpha: true, //apenas permite letras
@@ -51,15 +51,6 @@ module.exports = {
       return null;
     } else {
       return obj;
-    }
-  },
-  getNameById: async function (id) {
-    //alternando os select de where para findbypk, como exemplo
-    var type = await TypesModel.findByPk(id);
-    if (type === null) {
-      console.log("Erro ao tentar procurar o tipo. ");
-    } else {
-      return type.name;
     }
   },
   Model: TypesModel,
