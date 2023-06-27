@@ -9,8 +9,18 @@ const UserModel = sequelize.define("Users", {
     autoIncrement: true,
     primaryKey: true,
   },
-  username: DataTypes.STRING,
-  password: DataTypes.STRING,
+  username: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: { args: [6, 30], msg: "A senha deve ter entre 6 e 30 caracteres. " },
+    },
+  },
   isAdmin: DataTypes.BOOLEAN,
 });
 
@@ -28,19 +38,34 @@ module.exports = {
     }
   },
   save: async function (username, password, isAdmin) {
-    const User = await UserModel.create({
-      username: username,
-      password: password,
-      isAdmin: isAdmin,
-    });
-
-    return User;
+    try {
+      const User = await UserModel.create({
+        username: username,
+        password: password,
+        isAdmin: isAdmin,
+      });
+      return User;
+    } catch (e) {
+      console.log(`Erro ao tentar salvar o usuário: ${e}`);
+      return null;
+    }
   },
   getUserById: async function (id) {
-    var User = await UserModel.findOne({ where: { id: id } });
+    var User = await UserModel.findOne({ where: { uid: id } });
     if (User) {
       return User;
     } else {
+      return null;
+    }
+  },
+  update: async function (id, name, password) {
+    try {
+      return await UserModel.update(
+        { name: name, password: password },
+        { where: { uid: id } }
+      );
+    } catch (e) {
+      console.log(`Erro ao tentar atualizar o usuário: ${e}`);
       return null;
     }
   },

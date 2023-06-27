@@ -14,7 +14,7 @@ const TypesModel = sequelize.define("Types", {
       return this.getDataValue("name");
     },
     validate: {
-      isAlpha: true, //apenas permite letras
+      isAlpha: true,
       len: [1, 20],
     },
   },

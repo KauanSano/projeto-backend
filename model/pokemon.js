@@ -12,8 +12,14 @@ const PokemonModel = sequelize.define("Pokemon", {
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isAlpha: true,
-      len: [1, 25],
+      isAlpha: {
+        args: true,
+        msg: "O nome do Pokémon não pode conter caracteres especiais ou números. ",
+      },
+      len: {
+        args: [1, 25],
+        msg: "O nome do Pokémon deve ter entre 1 e 25 caracteres. ",
+      },
     },
   },
 });
@@ -36,7 +42,7 @@ module.exports = {
       const Pokemon = await PokemonModel.create({ name: name });
       return Pokemon;
     } catch (e) {
-      console.log(`Houve um erro tentando salvar o Pokémon: + ${e}`);
+      console.log(`Houve um erro tentando salvar o Pokémon: ${e}`);
       return null;
     }
   },

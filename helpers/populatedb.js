@@ -26,9 +26,9 @@ router.get("/install", async (req, res) => {
     { name: "water" },
   ];
   let user = {
-    name: "Um",
-    password: "1234",
-    admin: "false",
+    name: "ADM",
+    password: "1256555",
+    admin: "true",
   };
 
   for (const type of types) {
@@ -53,7 +53,7 @@ router.get("/install", async (req, res) => {
       console.log(`Tipos do ${pokemon.name}: ${types}`);
       const newPokemon = await PokeModel.save(pokemon.name, thisPokemonTypes);
       newPokemon.addTypes(thisPokemonTypes);
-      console.log(`Eba! Pokémon salvo com sucesso: ${newPokemon.name}`);
+      console.log(`Pokémon salvo com sucesso: ${newPokemon.name}`);
     } catch (e) {
       console.log(
         `Erro ao salvar esse Pokémon: ${pokemon.name}... Código de erro: ${e}`
