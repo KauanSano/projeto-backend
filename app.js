@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 //uso de rotas e helpers
 app.use(require("./routes/index"));
-app.use(require("./control/PokemonControl"));
-app.use(require("./control/UserControl"));
+app.use(require("./routes/pokedex"));
+app.use(require("./routes/user"));
 app.use(require("./helpers/populatedb"));
 
 app.listen(process.env.APP_PORT, () => {

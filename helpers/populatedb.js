@@ -1,4 +1,6 @@
-const UserModel = require("../model/user");
+const UserControl = require("../control/UserControl");
+const PokeControl = require("../control/PokemonControl");
+const TypeControl = require("../control/TypeControl");
 const PokeModel = require("../model/pokemon");
 const TypeModel = require("../model/types");
 const pokemonRelTable = require("../model/pokemonTypes");
@@ -25,23 +27,18 @@ router.get("/install", async (req, res) => {
     { name: "fire" },
     { name: "water" },
   ];
-  let user = {
-    name: "ADM",
-    password: "1256555",
-    admin: "true",
-  };
   let users = [
     { name: "ADM", password: "123456", admin: true },
     { name: "Comum", password: "123456", admin: false },
   ];
   for (const user of users) {
-    await UserModel.save(user.name, user.password, user.admin);
+    await UserControl.save(user.name, user.password, user.admin);
   }
   for (const type of types) {
     //for ... of é síncrono e garante que os dados sejam salvos adequadamente no banco
     console.log("Tentando gravar o seguinte tipo: ", type.name);
     try {
-      var newType = await TypeModel.save(type.name);
+      var newType = await TypeControl.save(type.name);
       console.log(`Tipo salvo com sucesso: ${newType.name}`);
     } catch (e) {
       console.log(
@@ -57,7 +54,7 @@ router.get("/install", async (req, res) => {
         where: { id: { [Op.in]: pokemon.types } },
       });
       console.log(`Tipos do ${pokemon.name}: ${types}`);
-      const newPokemon = await PokeModel.save(pokemon.name, thisPokemonTypes);
+      const newPokemon = await PokeControl.save(pokemon.name, thisPokemonTypes);
       newPokemon.addTypes(thisPokemonTypes);
       console.log(`Pokémon salvo com sucesso: ${newPokemon.name}`);
     } catch (e) {
@@ -66,14 +63,14 @@ router.get("/install", async (req, res) => {
       );
     }
   }
-  //await UserModel.save(user.name, user.password, user.admin);
-  let typeId = await TypeModel.getIdByName("aaaaa");
+  //await UserControl.save(user.name, user.password, user.admin);
+  let typeId = await TypeControl.getIdByName("aaaaa");
   console.log(typeId);
   res.json({
     message: "success",
-    users: await UserModel.list(),
-    types: await TypeModel.list(),
-    pokemons: await PokeModel.list(),
+    users: await UserControl.list(),
+    types: await TypeControl.list(),
+    pokemons: await PokeControl.list(),
     relationships: await pokemonRelTable.list(),
   });
 });

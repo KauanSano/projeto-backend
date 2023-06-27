@@ -1,34 +1,36 @@
 //remover console log
-const TypesModel = require("../model/types");
+const types = require("../model/types");
 module.exports = {
   list: async function () {
-    const Type = await TypesModel.findAll();
+    const Type = await types.Model.findAll();
     return Type;
   },
   save: async function (name) {
-    const Type = await TypesModel.create({
-      typeName: name,
-    });
-
-    return Type;
+    try {
+      const Type = await types.Model.create({
+        name: name,
+      });
+      return Type;
+    } catch (e) {
+      console.log(`Houve um erro ao tentar salvar o tipo: ${e}`);
+      return null;
+    }
   },
-  getByName: async function (name) {
-    var Type = await TypesModel.findOne({ where: { typeName: name } });
-    if (Type === null) {
-      console.log("Tipo nao encontrado! ");
-      return 0;
-    } else {
+  getIdByName: async function (name) {
+    try {
+      var Type = await types.Model.findOne({ where: { name: name } });
       return Type.id;
+    } catch (e) {
+      return e.message;
     }
   },
   getById: async function (id) {
-    var obj = await TypesModel.findOne({ where: { id: id } });
+    var obj = await types.Model.findOne({ where: { id: id } });
     if (obj === null) {
-      console.log("Objeto nao encontrado! ");
+      console.log("Não foi possível achar o objeto de TIPO pelo ID. ");
       return null;
     } else {
       return obj;
     }
   },
-  Model: TypesModel,
 };

@@ -28,47 +28,5 @@ PokemonModel.belongsToMany(types.Model, { through: "PokemonTypes" });
 types.Model.belongsToMany(PokemonModel, { through: "PokemonTypes" });
 
 module.exports = {
-  list: async function () {
-    const Pokemon = await PokemonModel.findAll({
-      include: {
-        model: types.Model, //join com a tabela de tipos
-        as: "Types",
-      },
-    });
-    return Pokemon;
-  },
-  save: async function (name) {
-    try {
-      const Pokemon = await PokemonModel.create({ name: name });
-      return Pokemon;
-    } catch (e) {
-      console.log(`Houve um erro tentando salvar o Pokémon: ${e}`);
-      return null;
-    }
-  },
-  returnById: async function (id) {
-    var Pokemon = await PokemonModel.findAll({
-      //caso existam duplicados, retorna tb
-      where: { id: id },
-      include: {
-        model: types.Model,
-        as: "Types",
-      },
-    });
-    if (Pokemon) {
-      return Pokemon;
-    } else {
-      return null;
-    }
-  },
-  returnByName: async function (name) {
-    var Pokemon = await PokemonModel.findOne({ where: { name: name } });
-    if (Pokemon) {
-      return Pokemon;
-    } else {
-      return null;
-    }
-  },
-
   Model: PokemonModel,
 };
