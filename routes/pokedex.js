@@ -21,11 +21,11 @@ router.get("/list/pokemons", async (req, res) => {
   else res.status(404).json({ message: "Lista de usuários vazia." });
 });
 
-router.post("/views/pokedex/:name/:maintype/:secondtype", async (req, res) => {
-  const name = req.params.name;
+router.post("/views/pokedex/", async (req, res) => {
+  const name = req.body.name;
   const thisPokemonTypes = [];
-  thisPokemonTypes.push(req.params.maintype);
-  thisPokemonTypes.push(req.params.secondtype);
+  thisPokemonTypes.push(req.body.typeOne);
+  thisPokemonTypes.push(req.body.typeTwo);
   const pokemonTypes = await types.Model.findAll({
     where: { id: { [Op.in]: thisPokemonTypes } },
   });
