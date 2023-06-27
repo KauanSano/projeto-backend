@@ -17,11 +17,16 @@
     <br />
     <hr />
     <h1>Cadastrar Pokémon:</h1>
-    <form id="pokemonRegister" action="post">
+    <form id="pokemonRegister" action="/views/pokedex" method="POST">
       <label for="pokemonName">Nome: </label>
       <input type="text" id="pokemonName" name="name" />
-      <label for="pokemonType">Tipo: </label>
-      <input type="text" name="type" id="pokemonType" />
+      <select name="tipos" id="tipos">
+        {{#tipos}}
+        <option value="{{ name }}">{{ name }}</option>
+        {{/tipos}}
+      </select>
+      {{! <label for="pokemonType">Tipo: </label>
+      <input type="text" name="type" id="pokemonType" /> }}
       <input type="submit" value="Login" />
     </form>
   </body>

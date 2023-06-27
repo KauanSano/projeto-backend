@@ -4,6 +4,7 @@ const UserDAO = require("../model/user");
 var jwt = require("jsonwebtoken");
 
 const verifyToken = function (req, res, next) {
+  //metodo de exemplo do professor. nao consegui fazer funcionar com o .split
   let fullToken = req.headers.authorization;
   jwt.verify(fullToken, process.env.JWT_SECRET, (err, payload) => {
     if (err) {
@@ -20,12 +21,29 @@ const verifyToken = function (req, res, next) {
   });
 };
 
+const isAdminOrSelf = function (req, res, next) {
+  //nao vai permitir acesso a rotas se o usuario nao for administrador
+  //ou se estiver tentando acessar dados q nao correspondam ao id dele.
+  const token = req.headers.authorization;
+  const payload = jwt.decode(token);
+  const { id } = req.params;
+  if (payload.user.isAdmin || payload.user.uid == id) {
+    console.log("Passou pelo método isAdminOrSelf! "); //teste
+    next();
+  } else {
+    res.status(401).json({
+      status: false,
+      message: "Você não tem autorização para acessar ou alterar esses dados. ",
+    });
+  }
+};
+
 router.get("/listUsers", verifyToken, async (req, res) => {
   var users = await UserDAO.list();
   res.json({ status: true, users: users });
 });
 
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", verifyToken, isAdminOrSelf, async (req, res) => {
   const { id } = req.params;
   const { name, password } = req.body;
   const updatedUser = UserDAO.getUserById(id);
@@ -33,7 +51,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   if (name) {
     obj.name = name;
   } else {
-    obj.name = updatedUser.name;
+    obj.name = updatedUser.name; //necessario para nao enviar null para o bd
   }
   if (password) {
     obj.password = password;
@@ -55,7 +73,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   });
 });
 
-router.get("/listUsers/:id", verifyToken, async (req, res) => {
+router.get("/listUsers/:id", verifyToken, isAdminOrSelf, async (req, res) => {
   var user = await UserDAO.getUserById(req.params.id);
   if (!user) {
     res

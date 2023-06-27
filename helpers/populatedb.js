@@ -30,7 +30,13 @@ router.get("/install", async (req, res) => {
     password: "1256555",
     admin: "true",
   };
-
+  let users = [
+    { name: "ADM", password: "123456", admin: true },
+    { name: "Comum", password: "123456", admin: false },
+  ];
+  for (const user of users) {
+    await UserModel.save(user.name, user.password, user.admin);
+  }
   for (const type of types) {
     //for ... of é síncrono e garante que os dados sejam salvos adequadamente no banco
     console.log("Tentando gravar o seguinte tipo: ", type.name);
@@ -60,7 +66,7 @@ router.get("/install", async (req, res) => {
       );
     }
   }
-  await UserModel.save(user.name, user.password, user.admin);
+  //await UserModel.save(user.name, user.password, user.admin);
   let typeId = await TypeModel.getIdByName("aaaaa");
   console.log(typeId);
   res.json({
