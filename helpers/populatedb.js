@@ -1,10 +1,7 @@
 const UserControl = require("../control/UserControl");
 const PokeControl = require("../control/PokemonControl");
 const TypeControl = require("../control/TypeControl");
-const PokeModel = require("../model/pokemon");
-const TypeModel = require("../model/types");
 const pokemonRelTable = require("../model/pokemonTypes");
-const { Op } = require("sequelize");
 const express = require("express");
 const router = express.Router();
 const db = require("./db");
@@ -14,7 +11,7 @@ const db = require("./db");
 router.get("/install", async (req, res) => {
   await db.sync({ force: true });
   let pokemons = [
-    { name: "pikachu", types: [1, 2] },
+    { name: "pikachu", types: [1, 1] },
     { name: "squirtle", types: [5] },
     { name: "charmander", types: [4] },
     { name: "bulbasaur", types: [3] },
@@ -56,10 +53,11 @@ router.get("/install", async (req, res) => {
   for (const pokemon of pokemons) {
     console.log("Tentando gravar o seguinte Pokémon: ", pokemon.name);
     try {
-      const thisPokemonTypes = await TypeModel.Model.findAll({
-        where: { id: { [Op.in]: pokemon.types } },
-      });
+      const thisPokemonTypes = await TypeControl.listValidTypes(pokemon);
       console.log(`Tipos do ${pokemon.name}: ${types}`);
+      if (thisPokemonTypes.length == 0) {
+        throw new Error(`Tipos inválidos! `);
+      }
       const newPokemon = await PokeControl.save(pokemon.name, thisPokemonTypes);
       newPokemon.addTypes(thisPokemonTypes);
       console.log(`Pokémon salvo com sucesso: ${newPokemon.name}`);

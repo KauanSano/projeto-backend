@@ -17,33 +17,58 @@ router.get("/views/pokedex", async (req, res) => {
 
 router.get("/list/pokemons", async (req, res) => {
   //reescrever com paginacao.
-  let allPokemons = await PokemonControl.list();
-  if (allPokemons) res.json(allPokemons);
-  else res.status(404).json({ message: "Lista de usuários vazia." });
+  let allPokemons = await PokemonControl.selectPokemonsWithTypes(2, 3);
+  res.json({ obj: allPokemons });
+});
+
+router.get("/list/pagination", async (req, res) => {
+  const { offset, limit } = req.body;
+  let allPokemons = await PokemonControl.listPagination(offset, limit);
+  res.json({ obj: allPokemons });
 });
 
 router.post("/views/pokedex/", async (req, res) => {
   const name = req.body.name;
   const thisPokemonTypes = [];
+  const allPokemons = await PokemonControl.selectPokemons();
+  const allTypes = await types.Model.findAll();
   thisPokemonTypes.push(req.body.typeOne);
   thisPokemonTypes.push(req.body.typeTwo);
   const pokemonTypes = await types.Model.findAll({
-    where: { id: { [Op.in]: thisPokemonTypes } },
+    where: {
+      [Op.and]: [{ id: { [Op.gt]: 1 } }, { id: { [Op.in]: thisPokemonTypes } }],
+    },
   });
   console.log(JSON.stringify(pokemonTypes));
   if (
     pokemonTypes == null ||
     pokemonTypes.length == 0 ||
-    pokemonTypes == undefined
+    pokemonTypes == undefined ||
+    name.length < 1
   ) {
-    return res
-      .status(500)
-      .json({ message: "Erro ao tentar criar o Pokémon. " });
+    let err = {};
+    err.erroMsg = "Erro ao tentar criar o Pokémon! ";
+    return res.render("pokedex", {
+      bd: allPokemons,
+      tipos: allTypes,
+      error: err,
+    });
   }
-  const savedPokemon = await PokemonControl.save(name, pokemonTypes);
-  savedPokemon.addTypes(pokemonTypes);
-  console.log(JSON.stringify(savedPokemon));
-  res.redirect("/list/pokemons");
+  try {
+    const savedPokemon = await PokemonControl.save(name, pokemonTypes);
+    return res.render("pokedex", {
+      bd: allPokemons,
+      tipos: allTypes,
+    });
+  } catch (e) {
+    let err = {};
+    err.erroMsg += e.message;
+    return res.render("pokedex", {
+      bd: allPokemons,
+      tipos: allTypes,
+      error: err,
+    });
+  }
 });
 
 module.exports = router;

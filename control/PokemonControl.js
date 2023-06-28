@@ -22,6 +22,32 @@ module.exports = {
 
     return pokemon;
   },
+  selectPokemonsWithTypes: async function (...type) {
+    console.log(type);
+    const pokemons = await pokemon.Model.findAll({
+      include: {
+        model: types.Model,
+        as: "Types",
+        where: {
+          id: {
+            [Op.in]: type,
+          },
+        },
+      },
+    });
+    return pokemons;
+  },
+  listPagination: async function (offset, limit) {
+    const pokemons = await pokemon.Model.findAndCountAll({
+      include: {
+        model: types.Model,
+        as: "Types",
+      },
+      offset: offset,
+      limit: limit,
+    });
+    return pokemons;
+  },
   list: async function () {
     const Pokemon = await pokemon.Model.findAll({
       include: {

@@ -1,9 +1,18 @@
 //remover console log
 const types = require("../model/types");
+const { Op } = require("sequelize");
 module.exports = {
   list: async function () {
     const Type = await types.Model.findAll();
     return Type;
+  },
+  listValidTypes: async function (pokemon) {
+    const Types = await types.Model.findAll({
+      where: {
+        [Op.and]: [{ id: { [Op.gt]: 1 } }, { id: { [Op.in]: pokemon.types } }],
+      },
+    });
+    return Types;
   },
   save: async function (name) {
     try {

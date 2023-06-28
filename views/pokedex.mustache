@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="/stylesheets/pokedex.css" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Pokédex</title>
   </head>
   <body>
     {{#bd}}
-    <p>Pokemon:</p>
+    <div class="tasksDiv">
+      <h2 id="PokeTitle">Pokemon:</h2>
     <p>
-      Pokemon ID: {{ PokemonId }} | POKEMON NAME: {{ PokemonName }} || TYPE:
-      {{ TypeNames }}
-    </p>
-    <p></p>
+      <span id="attributes"> ID: {{ PokemonId }} | name: {{ PokemonName }} | type(s): </span>
+      <span id="{{TypeNames}}">{{ TypeNames }}</span>     
+      <img src="https://img.icons8.com/?size=512&id=79952&format=png" alt="Imagem de pokéball. " id="pokeballImg">
+    </p> 
+    </div>
     {{/bd}}
     <br />
     <hr />
+    <fieldset class="formDiv">
     <h1>Cadastrar Pokémon:</h1>
     <form id="pokemonRegister" action="/views/pokedex" method="POST">
       <label for="pokemonName">Nome: </label>
@@ -30,7 +34,12 @@
         <option value="{{ id }}">{{ name }}</option>
         {{/tipos}}
       </select>
-      <input type="submit" value="Criar Pokémon" />
+      <input type="submit" id="enviar" value="Criar Pokémon" />
+    </fieldset>
+      <br />
     </form>
+    {{#error}}
+    <p>{{ erroMsg }}</p>
+    {{/error}}
   </body>
 </html>
