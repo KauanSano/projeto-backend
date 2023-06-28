@@ -1,50 +1,69 @@
 const express = require("express");
 const user = require("../model/user");
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   list: async function () {
-    var User = await user.Model.findAll();
+    let User = await user.Model.findAll();
     return User;
   },
   getByUsername: async function (name) {
-    var User = await user.Model.findOne({ where: { username: name } });
+    let User = await user.Model.findOne({ where: { username: name } });
     if (User) {
       return User;
     } else {
       return null;
     }
   },
-  save: async function (username, password, isAdmin) {
+  save: async function (username, password, isAdmin, email) {
     try {
       const User = await user.Model.create({
         username: username,
         password: password,
         isAdmin: isAdmin,
+        email: email,
       });
       return User;
     } catch (e) {
       console.log(`Erro ao tentar salvar o usuário: ${e}`);
-      return null;
+      throw new Error(`${e.message}`);
+    }
+  },
+  delete: async function (id) {
+    try {
+      return await user.Model.destroy({
+        where: {
+          uid: id,
+        },
+      });
+    } catch (e) {
+      throw new Error(`${e.message}`);
+    }
+  },
+  giveUserAdmin: async function (id) {
+    try {
+      return await user.Model.update({ isAdmin: true }, { where: { uid: id } });
+    } catch (e) {
+      throw new Error(`${e.message}`);
     }
   },
   getUserById: async function (id) {
-    var User = await user.Model.findOne({ where: { uid: id } });
+    let User = await user.Model.findOne({ where: { uid: id } });
     if (User) {
       return User;
     } else {
       return null;
     }
   },
-  update: async function (id, name, password) {
+  update: async function (id, name, password, email) {
     try {
       return await user.Model.update(
-        { name: name, password: password },
+        { username: name, password: password, email: email },
         { where: { uid: id } }
       );
     } catch (e) {
       console.log(`Erro ao tentar atualizar o usuário: ${e}`);
-      return null;
+      throw new Error(`${e.message}`);
     }
   },
   verifyToken: function (req, res, next) {
@@ -74,10 +93,28 @@ module.exports = {
       console.log("Passou pelo método isAdminOrSelf! "); //teste
       next();
     } else {
-      res.status(401).json({
+      res.status(403).json({
         status: false,
         message:
           "Você não tem autorização para acessar ou alterar esses dados. ",
+      });
+    }
+  },
+  isAdmin: function (req, res, next) {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(401).json({
+        status: false,
+        message: "Token não encontrado. ",
+      });
+    }
+    const payload = jwt.decode(token);
+    if (payload.user.isAdmin) {
+      next();
+    } else {
+      res.status(403).json({
+        status: false,
+        message: "Restrito para administradores.",
       });
     }
   },

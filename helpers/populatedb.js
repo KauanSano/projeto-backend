@@ -21,6 +21,7 @@ router.get("/install", async (req, res) => {
     { name: "eevee", types: [2] },
   ];
   let types = [
+    { name: "none" },
     { name: "electric" },
     { name: "normal" },
     { name: "grass" },
@@ -28,11 +29,16 @@ router.get("/install", async (req, res) => {
     { name: "water" },
   ];
   let users = [
-    { name: "ADM", password: "123456", admin: true },
-    { name: "Comum", password: "123456", admin: false },
+    { name: "ADM", password: "123456", admin: true, email: "adm@gmail.com" },
+    {
+      name: "Comum",
+      password: "123456",
+      admin: false,
+      email: "comum@gmail.com",
+    },
   ];
   for (const user of users) {
-    await UserControl.save(user.name, user.password, user.admin);
+    await UserControl.save(user.name, user.password, user.admin, user.email);
   }
   for (const type of types) {
     //for ... of é síncrono e garante que os dados sejam salvos adequadamente no banco

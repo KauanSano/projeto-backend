@@ -1,15 +1,16 @@
 const pokemon = require("../model/pokemon");
 const PokemonControl = require("../control/PokemonControl");
 const types = require("../model/types");
+const { Op } = require("sequelize");
 const express = require("express");
 const router = express.Router();
 
 router.get("/views/pokedex", async (req, res) => {
-  const allPokemons = await selectPokemons();
+  const allPokemons = await PokemonControl.selectPokemons();
   const allTypes = await types.Model.findAll();
   const pikachu = await pokemon.Model.findOne({ where: { id: 1 } });
   console.log(await pikachu.getTypes());
-  console.log(JSON.stringify(allPokemons));
+  console.log(JSON.stringify(allTypes));
 
   res.render("pokedex", { bd: allPokemons, tipos: allTypes });
 });

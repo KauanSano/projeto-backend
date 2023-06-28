@@ -31,17 +31,29 @@ module.exports = {
     });
     return Pokemon;
   },
+  delete: async function (id) {
+    try {
+      return await pokemon.Model.destroy({
+        where: {
+          id: id,
+        },
+      });
+    } catch (e) {
+      console.log(`Erro ao tentar deletar o usuário: ${e}`);
+      throw new Error(`Erro: ${e.message}`);
+    }
+  },
   save: async function (name) {
     try {
       const Pokemon = await pokemon.Model.create({ name: name });
       return Pokemon;
     } catch (e) {
       console.log(`Houve um erro tentando salvar o Pokémon: ${e}`);
-      return null;
+      throw new Error(`Erro: ${e.message}`);
     }
   },
   returnById: async function (id) {
-    var Pokemon = await pokemon.Model.findAll({
+    let Pokemon = await pokemon.Model.findAll({
       //caso existam duplicados, retorna tb
       where: { id: id },
       include: {
@@ -56,7 +68,7 @@ module.exports = {
     }
   },
   returnByName: async function (name) {
-    var Pokemon = await pokemon.Model.findOne({ where: { name: name } });
+    let Pokemon = await pokemon.Model.findOne({ where: { name: name } });
     if (Pokemon) {
       return Pokemon;
     } else {

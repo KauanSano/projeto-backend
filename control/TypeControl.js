@@ -18,14 +18,14 @@ module.exports = {
   },
   getIdByName: async function (name) {
     try {
-      var Type = await types.Model.findOne({ where: { name: name } });
+      let Type = await types.Model.findOne({ where: { name: name } });
       return Type.id;
     } catch (e) {
       return e.message;
     }
   },
   getById: async function (id) {
-    var obj = await types.Model.findOne({ where: { id: id } });
+    let obj = await types.Model.findOne({ where: { id: id } });
     if (obj === null) {
       console.log("Não foi possível achar o objeto de TIPO pelo ID. ");
       return null;

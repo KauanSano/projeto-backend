@@ -21,7 +21,20 @@ const UserModel = sequelize.define("Users", {
       len: { args: [6, 30], msg: "A senha deve ter entre 6 e 30 caracteres. " },
     },
   },
-  isAdmin: DataTypes.BOOLEAN,
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: { args: true, msg: "Insira um e-mail válido. " },
+      notNull: {
+        msg: "Insira um e-mail.",
+      },
+    },
+  },
 });
 
 module.exports = {
