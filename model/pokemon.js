@@ -11,6 +11,10 @@ const PokemonModel = sequelize.define("Pokemon", {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: {
+      args: true,
+      msg: "Já existe um Pokémon com esse nome. ",
+    },
     validate: {
       isAlpha: {
         args: true,

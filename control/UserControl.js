@@ -68,7 +68,14 @@ module.exports = {
   },
   verifyToken: function (req, res, next) {
     //metodo de exemplo do professor. nao consegui fazer funcionar com o .split
-    let fullToken = req.headers.authorization;
+    let fullToken = req.cookies.token;
+    console.log(req.cookies.token);
+    if (!fullToken) {
+      return res.status(403).json({
+        status: false,
+        message: `Acesso negado.  `
+      })
+    }
     jwt.verify(fullToken, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
         console.log(fullToken);
@@ -79,14 +86,13 @@ module.exports = {
         return;
       }
       req.user = payload.user;
-      console.log(payload);
       next();
     });
   },
   isAdminOrSelf: function (req, res, next) {
     //nao vai permitir acesso a rotas se o usuario nao for administrador
     //ou se estiver tentando acessar dados q nao correspondam ao id dele.
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     const payload = jwt.decode(token);
     const { id } = req.params;
     if (payload.user.isAdmin || payload.user.uid == id) {
@@ -101,7 +107,7 @@ module.exports = {
     }
   },
   isAdmin: function (req, res, next) {
-    const token = req.headers.authorization;
+    const token = req.cookies.token;
     if (!token) {
       return res.status(401).json({
         status: false,

@@ -128,6 +128,32 @@ router.get(
   }
 );
 
+router.get("/views/login", async (req, res) => {
+  res.render("login");
+});
+
+router.post("/views/login", async (req, res) => {
+  const { username, password } = req.body;
+  console.log(username);
+  console.log(password);
+  if (username == undefined || password == undefined) {
+    return res.status(401).redirect("/views/login");
+  }
+
+  let loggedUser = await UserControl.getByUsername(username);
+  console.log(JSON.stringify(loggedUser));
+  if (loggedUser != null && loggedUser.password == password) {
+    let tokenjwt = jwt.sign({ user: loggedUser }, process.env.JWT_SECRET, {
+      expiresIn: "20 min",
+    });
+    console.log("logou!");
+    return res.cookie("token", tokenjwt).json({ status: true, token: tokenjwt });
+  } else {
+    //erro login!
+    return res.status(401).redirect("/views/login");
+  }
+});
+
 router.post("/login", async (req, res) => {
   let { username, password } = req.body;
   let loggedUser = await UserControl.getByUsername(username);
@@ -136,7 +162,7 @@ router.post("/login", async (req, res) => {
     let tokenjwt = jwt.sign({ user: loggedUser }, process.env.JWT_SECRET, {
       expiresIn: "30 min",
     });
-    res.status(200).json({ status: true, token: tokenjwt }); //devolve o token para poder testar outras funcionalidades da api.
+    return res.cookie("token", tokenjwt, {maxAge: 720000}).json({ status: true, token: tokenjwt });
   } else {
     //erro login
     res.status(401).json({ status: false, message: "Credenciais inválidos." });

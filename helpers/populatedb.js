@@ -11,7 +11,7 @@ const db = require("./db");
 router.get("/install", async (req, res) => {
   await db.sync({ force: true });
   let pokemons = [
-    { name: "pikachu", types: [1, 1] },
+    { name: "pikachu", types: [3, 2] },
     { name: "squirtle", types: [5] },
     { name: "charmander", types: [4] },
     { name: "bulbasaur", types: [3] },

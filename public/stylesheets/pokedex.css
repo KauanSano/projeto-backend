@@ -5,6 +5,16 @@
   width: 750px;
   padding: 5px;
   margin: 10px;
+  margin-left: 50px;
+}
+#pokemonUpdate {
+  border: blue 2px;
+  border-style: solid;
+  background-color: #f16363;
+  width: 750px;
+  padding: 5px;
+  margin: 10px;
+  margin-left: 50px;
 }
 input {
   padding: 2px;
@@ -20,15 +30,15 @@ p {
 }
 #PokeTitle {
   position: absolute;
-  right: 88%;
+  right: 85%;
   margin-top: 30px;
   color: white;
   padding: 5px;
 }
-.tasksDiv p {
+.PokeDiv p {
   color: white;
 }
-.tasksDiv {
+.PokeDiv {
   margin-left: 50px;
   width: 800px;
   display: flex;
@@ -38,6 +48,11 @@ p {
     rgba(200, 192, 192, 0.6685049019607843) 5%,
     rgba(8, 52, 232, 0.5956757703081232) 100%
   );
+  border: solid;
+}
+#electric {
+  background-color: yellow;
+  color: black;
   border: solid;
 }
 #electric {
@@ -59,6 +74,11 @@ p {
   color: black;
   border: solid;
 }
+#water {
+  background-color: blue;
+  color: white;
+  border: solid black;
+}
 #pokeballImg {
   width: 25px;
   margin: auto;
@@ -76,16 +96,7 @@ body {
     rgba(200, 192, 192, 0.6685049019607843) 5%,
     rgba(232, 8, 8, 0.654499299719888) 100%
   );
-}
-.tasksDivFinalizadas {
-  margin-left: 50px;
-  align-items: center;
-  width: 450px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  background-color: lightgreen;
-  white-space: nowrap;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #formTitle {

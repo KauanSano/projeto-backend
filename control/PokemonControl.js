@@ -19,26 +19,20 @@ module.exports = {
     const pokemon = await sequelize.query(query, {
       type: QueryTypes.SELECT,
     });
-
     return pokemon;
   },
-  selectPokemonsWithTypes: async function (...type) {
-    console.log(type);
+  listPagination: async function (limit, page) {
+    // pagina 0 x limite 5, offset = 0. retorna até o cinco. pagina 1 x limite 5, retorna a partir do 5.
+    if(page > 0) {
+      page = page - 1; 
+    }
+    let offset = (page) * limit;
+    console.log(offset);
+    if(offset < 0) {
+      offset = offset * -1;
+    }
+    console.log(offset);
     const pokemons = await pokemon.Model.findAll({
-      include: {
-        model: types.Model,
-        as: "Types",
-        where: {
-          id: {
-            [Op.in]: type,
-          },
-        },
-      },
-    });
-    return pokemons;
-  },
-  listPagination: async function (offset, limit) {
-    const pokemons = await pokemon.Model.findAndCountAll({
       include: {
         model: types.Model,
         as: "Types",
@@ -46,6 +40,7 @@ module.exports = {
       offset: offset,
       limit: limit,
     });
+    console.log(JSON.stringify(pokemons));
     return pokemons;
   },
   list: async function () {
@@ -65,7 +60,7 @@ module.exports = {
         },
       });
     } catch (e) {
-      console.log(`Erro ao tentar deletar o usuário: ${e}`);
+      console.log(`Erro ao tentar deletar o usuário: ${e.message}`);
       throw new Error(`Erro: ${e.message}`);
     }
   },
@@ -75,6 +70,44 @@ module.exports = {
       return Pokemon;
     } catch (e) {
       console.log(`Houve um erro tentando salvar o Pokémon: ${e}`);
+      throw new Error(`Erro: ${e.message}`);
+    }
+  },
+  update: async function(id, name, typeOne, typeTwo) {
+    console.log(id);
+    if(id === null || isNaN(id) || id === undefined) {
+      return null;
+    }
+    const thisPokemonTypes = []
+    if(typeOne > 1) {
+      thisPokemonTypes.push(typeOne);
+    }
+    if(typeTwo > 1) {
+      thisPokemonTypes.push(typeTwo);
+    }
+    if (thisPokemonTypes.length == 0) {
+      console.log("array vazio");
+      return null;
+    }
+    try {
+      const UpdatedTypes = await pokemon.Model.findOne({
+        where: {id: id},
+        include: types.Model,
+        as: "Types"
+      })
+      UpdatedTypes.setTypes([]);
+      UpdatedTypes.setTypes(thisPokemonTypes);
+    } catch (e) {
+      console.log(`Houve um erro tentando atualizar o Pokémon: ${e}`)
+      throw new Error(`Erro: ${e.message}`);
+    }
+    try {
+      return await pokemon.Model.update(
+        { name: name },
+        { where: {id: id }}
+      );
+    } catch(e) {
+      console.log(`Houve um erro tentando atualizar o Pokémon: ${e}`)
       throw new Error(`Erro: ${e.message}`);
     }
   },

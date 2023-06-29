@@ -1,9 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=512&id=79952&format=png">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
   </head>
-  <body></body>
+  <body>
+    <div class="LoginDiv">
+      <form method="POST" id="loginForm">
+        <label for="username">Usuário: </label>
+        <input type="text" id="name" name="username" />
+        <div class="passwordDiv">
+          <label for="password">Senha: </label>
+          <input type="password" id="password" name="password" />
+          <img
+            src="https://img.icons8.com/?size=512&id=79952&format=png"
+            alt="Imagem de pokéball. "
+            id="pokeballImg"
+          />
+        </div>
+        <input type="submit" value="Logar" id="loginButton" />
+      </form>
+    </div>
+    <script src="/javascripts/login.js" type="module"></script>
+  </body>
 </html>
