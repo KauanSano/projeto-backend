@@ -8,7 +8,10 @@ const { QueryTypes } = require("sequelize");
 //isso eh necessario por conta da funcao ARRAY_AGG no Postgres
 
 module.exports = {
-  selectPokemons: async function () {
+  selectPokemons: async function (page = 0) {
+    const limit = 5;
+    const offset = page * limit;
+
     const query = `SELECT p.id AS "PokemonId",
     p.name AS "PokemonName",
     ARRAY_AGG(t.id) AS "TypeIds",
@@ -16,7 +19,11 @@ module.exports = {
     FROM "Pokemons" p
     INNER JOIN "PokemonTypes" pt ON pt."PokemonId" = p.id
     INNER JOIN "Types" t ON t.id = pt."TypeId"
-    GROUP BY p.id`;
+    GROUP BY p.id
+    OFFSET ${offset}
+    limit ${limit}
+    `;
+
     const pokemon = await sequelize.query(query, {
       type: QueryTypes.SELECT,
     });

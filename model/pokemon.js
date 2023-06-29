@@ -28,8 +28,8 @@ const PokemonModel = sequelize.define("Pokemon", {
   },
 });
 
-PokemonModel.belongsToMany(types.Model, { through: "PokemonTypes", onDelete: "CASCADE", hooks: true});
-types.Model.belongsToMany(PokemonModel, { through: "PokemonTypes", onDelete: "CASCADE", hooks: true});
+PokemonModel.belongsToMany(types.Model, { through: "PokemonTypes", onDelete: "CASCADE"});
+types.Model.belongsToMany(PokemonModel, { through: "PokemonTypes", onDelete: "CASCADE"});
 
 module.exports = {
   Model: PokemonModel,

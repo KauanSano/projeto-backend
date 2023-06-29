@@ -6,9 +6,13 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/views/pokedex", UserControl.verifyToken, async (req, res) => {
-  const allPokemons = await PokemonControl.selectPokemons();
+  let page = req.query.page;
+  if(!page) {
+    page = 0;
+  }
+  const allPokemons = await PokemonControl.selectPokemons(page);
   const allTypes = await types.Model.findAll();
-  res.render("pokedex", { bd: allPokemons, tipos: allTypes });
+  res.render("pokedex", { bd: allPokemons, tipos: allTypes, page });
 });
 
 router.get("/list/pokemons", async (req, res) => {
