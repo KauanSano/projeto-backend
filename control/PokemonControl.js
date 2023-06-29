@@ -1,4 +1,5 @@
 const pokemon = require("../model/pokemon");
+const pokemontypes = require("../model/pokemonTypes");
 const types = require("../model/types");
 const sequelize = require("../helpers/db");
 const { Op } = require("sequelize");
@@ -56,6 +57,9 @@ module.exports = {
     if(id < 1 || id == undefined) {
       return null;
     }
+    await pokemontypes.Model.destroy({
+      where: {PokemonId: id}
+    })
     const Pokemon = await pokemon.Model.findOne({
       where: {id: id}
     })
