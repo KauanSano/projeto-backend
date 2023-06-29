@@ -1,12 +1,13 @@
 let pokedexService = {
   createPokemon: async function (name, typeOne, typeTwo) {
+    console.log(localStorage.getItem("token"));
     const data = {
       method: "POST",
       headers: {
         "Content-type": "application/json",
         "authorization": "Bearer: " + localStorage.getItem("token"),
       },
-      body: JSON.stringify({ name: name, typeOne: typeOne, typeTwo: typeTwo }),
+      body: JSON.stringify({ newPokemonName: name, typeOne: typeOne, typeTwo: typeTwo }),
     };
     const response = await fetch("/views/pokedex", data);
     return await response.json();
@@ -20,6 +21,18 @@ let pokedexService = {
       },
       body: JSON.stringify({id: id, name: name, typeOne: typeOne, typeTwo: typeTwo}),
     };
+    const response = await fetch("/views/pokedex", data);
+    return await response.json();
+  },
+  deletePokemon: async function (id) {
+    const data = {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        "authorization": "Bearer: " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({deletedId: id}),
+    }
     const response = await fetch("/views/pokedex", data);
     return await response.json();
   },

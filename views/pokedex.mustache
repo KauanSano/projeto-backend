@@ -25,7 +25,7 @@
     <h2>Cadastrar Pokémon:</h2>
     <form id="pokemonRegister" method="POST">
       <label for="pokemonName">Nome: </label>
-      <input type="text" id="name" name="name" />
+      <input type="text" id="newPokemonName" name="newPokemonName" />
       <select name="typeOne" id="typeOne">
         {{#tipos}}
         <option value="{{ id }}">{{ name }}</option>
@@ -65,7 +65,8 @@
       <form method="DELETE" id="pokemonDelete">
         <h2>Deletar Pokémon: </h2>
         <label for="id">ID: </label>
-        <input type="number">
+        <input type="number" id="deletedId" name="deletedId">
+        <input type="submit" id="deletar" value="Deletar Pokémon" />
       </form>
     </fieldset>
     <br>

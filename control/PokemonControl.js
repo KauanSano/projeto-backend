@@ -53,6 +53,13 @@ module.exports = {
     return Pokemon;
   },
   delete: async function (id) {
+    if(id < 1 || id == undefined) {
+      return null;
+    }
+    const Pokemon = await pokemon.Model.findOne({
+      where: {id: id}
+    })
+    Pokemon.removeTypes();
     try {
       return await pokemon.Model.destroy({
         where: {
@@ -60,7 +67,7 @@ module.exports = {
         },
       });
     } catch (e) {
-      console.log(`Erro ao tentar deletar o usuário: ${e.message}`);
+      console.log(`Erro ao tentar deletar o Pokémon: ${e.message}`);
       throw new Error(`Erro: ${e.message}`);
     }
   },

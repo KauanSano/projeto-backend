@@ -7,7 +7,7 @@ window.addEventListener("load", function () {
     .addEventListener("submit", async (evt) => {
       evt.preventDefault();
 
-      let name = document.querySelector("#name").value;
+      let name = document.querySelector("#newPokemonName").value;
       let typeOne = document.querySelector("#typeOne").value;
       let typeTwo = document.querySelector("#typeTwo").value;
 
@@ -30,7 +30,14 @@ window.addEventListener("load", function () {
         console.log("Erro");
       }
     });
-    
+    document.querySelector("#pokemonDelete").addEventListener("submit", async(evt) => {
+      evt.preventDefault();
+      let id = document.querySelector("#pokemonDelete").value;
+      let resp = await pokedexService.deletePokemon(id);
+      if(resp.status == true) {
+        
+      }
+    })
     document
     .querySelector("#pokemonUpdate")
     .addEventListener("submit", async (evt) => {
@@ -61,4 +68,14 @@ window.addEventListener("load", function () {
       }
     });
     
+    document.querySelector("#pokemonDelete")
+    .addEventListener("submit", async(evt) => {
+      evt.preventDefault();
+      let id = document.querySelector("#deletedId").value;
+      let resp = await pokedexService.deletePokemon(id);
+      if(resp.status == true) {
+        console.log("Sucesso");
+      }
+    })
+
 });
