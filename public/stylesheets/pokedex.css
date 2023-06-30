@@ -1,0 +1,130 @@
+.formDiv {
+  border: blue 2px;
+  border-style: solid;
+  background-color: #f16363;
+  width: 750px;
+  padding: 5px;
+  margin: 10px;
+  margin-left: 50px;
+}
+#pokemonUpdate {
+  border: blue 2px;
+  border-style: solid;
+  background-color: #f16363;
+  width: 750px;
+  padding: 5px;
+  margin: 10px;
+  margin-left: 50px;
+}
+input {
+  padding: 2px;
+  margin: 5px;
+  width: 150px;
+}
+p {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#enviar {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 150px;
+}
+#PokeTitle {
+  position: absolute;
+  right: 85%;
+  margin-top: 30px;
+  color: white;
+  padding: 5px;
+}
+.PokeDiv p {
+  color: white;
+}
+.PokeDiv {
+  margin-left: 50px;
+  width: 800px;
+  display: flex;
+  justify-content: right;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 192, 192, 0.6685049019607843) 5%,
+    rgba(8, 52, 232, 0.5956757703081232) 100%
+  );
+  border: solid;
+}
+#electric {
+  background-color: yellow;
+  color: black;
+  border: solid;
+}
+#electric {
+  background-color: yellow;
+  color: black;
+  border: solid;
+}
+#grass {
+  background-color: lightgreen;
+  color: black;
+  border: solid;
+}
+#fire {
+  background-color: red;
+  border: solid black;
+}
+#normal {
+  background-color: whitesmoke;
+  color: black;
+  border: solid;
+}
+#water {
+  background-color: blue;
+  color: white;
+  border: solid black;
+}
+#pokeballImg {
+  width: 25px;
+  margin: auto;
+  padding: 10px;
+}
+#attributes {
+  color: black;
+  justify-content: space-between;
+  padding: 5px;
+}
+body {
+  margin: 15px;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 192, 192, 0.6685049019607843) 5%,
+    rgba(232, 8, 8, 0.654499299719888) 100%
+  );
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#formTitle {
+  border-radius: 50px;
+  font-size: 1.25em;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  border: blue 2px;
+  border-style: solid;
+  padding: 5px;
+  width: 150px;
+  background-color: #89cff0;
+  color: blue;
+}
+#formFieldset {
+  border: none;
+}
+h1 {
+  font-size: 3em;
+  margin: 5px;
+}
+hr {
+  margin: 5px;
+}
+#bodyDiv {
+  border: black 1px;
+  border-style: double;
+}
+a {
+  color: #00b7ff;
+}

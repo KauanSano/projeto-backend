@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/stylesheets/pokedex.css" />
+    <link rel="icon" type="image/png" href="https://img.icons8.com/?size=512&id=79952&format=png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokédex</title>
+  </head>
+  <body>
+    {{#bd}}
+    <div class="PokeDiv">
+      <h2 id="PokeTitle">Pokemon:</h2>
+    <p>
+      <span id="PokemonId"> ID: {{ PokemonId }} </span> <span id="name">| name: {{ PokemonName }} | </span> type(s): 
+      <span id="{{TypeNames}}">{{ TypeNames }}</span> 
+      <img src="https://img.icons8.com/?size=512&id=79952&format=png" alt="Imagem de pokéball. " id="pokeballImg">
+    </p> 
+    </div>
+    {{/bd}}
+    <br />
+    <hr />
+    <br>
+    <fieldset class="formDiv">
+    <h2>Cadastrar Pokémon:</h2>
+    <form id="pokemonRegister" method="POST">
+      <label for="pokemonName">Nome: </label>
+      <input type="text" id="newPokemonName" name="newPokemonName" />
+      <select name="typeOne" id="typeOne">
+        {{#tipos}}
+        <option value="{{ id }}">{{ name }}</option>
+        {{/tipos}}
+      </select>
+      <select name="typeTwo" id="typeTwo">
+        {{#tipos}}  
+        <option value="{{ id }}">{{ name }}</option>
+        {{/tipos}}
+      </select>
+      <input type="submit" id="enviar" value="Criar Pokémon" />
+    </fieldset>
+      <br />
+    </form>
+    <form id="pokemonUpdate" method="PUT">
+      <h2>Atualizar Pokémon: </h2>
+      <label for="id">ID: </label>
+      <input type="number" name="id" id="idInput">
+      <label for="pokemonName">Nome: </label>
+      <input type="text" id="nameUp" name="name" />
+      <select name="typeOne" id="typeOneUp">
+        {{#tipos}}
+        <option value="{{ id }}">{{ name }}</option>
+        {{/tipos}}
+      </select>
+      <select name="typeTwo" id="typeTwoUp">
+        {{#tipos}}  
+        <option value="{{ id }}">{{ name }}</option>
+        {{/tipos}}
+      </select>
+      <input type="submit" id="enviar" value="Atualizar Pokémon" />
+    </fieldset>
+      <br />
+    </form>
+    <br>
+    <fieldset class="formDiv">
+      <form method="DELETE" id="pokemonDelete">
+        <h2>Deletar Pokémon: </h2>
+        <label for="id">ID: </label>
+        <input type="number" id="deletedId" name="deletedId">
+        <input type="submit" id="deletar" value="Deletar Pokémon" />
+      </form>
+    </fieldset>
+    <br>
+    <form id="updatePage">
+      <input type="submit" id="update" value="Atualizar Página" />
+    </form>  
+    </fieldset>   
+    {{#error}}
+    <p>{{ erroMsg }}</p>
+    {{/error}}
+    <script src="/javascripts/pokedex.js" type="module"></script>
+  </body>
+</html>

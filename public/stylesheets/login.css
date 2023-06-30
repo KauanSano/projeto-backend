@@ -1,0 +1,56 @@
+.LoginDiv {
+  display: inline-block;
+  margin: 30%;
+  height: 230px;
+  width: 550px;
+  left: 50%;
+  right: 50%;
+  border-style: solid;
+  background: linear-gradient(
+    90deg,
+    rgba(200, 192, 192, 0.6685049019607843) 5%,
+    rgba(8, 52, 232, 0.5956757703081232) 100%
+  );
+}
+
+.passwordDiv {
+  margin-top: -25px;
+}
+
+.passwordDiv input {
+  margin-left: 5px;
+}
+
+#pokeballImg {
+  width: 25px;
+  position: absolute;
+  right: 61%;
+  top: 61%;
+  left: 63%;
+}
+
+body {
+  margin: 0 auto;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-image: url("https://sm.ign.com/ign_br/screenshot/default/starter-pokemon_bztd.jpg");
+  color: black;
+}
+
+.LoginDiv input {
+  margin-top: 55px;
+  margin-bottom: 10px;
+}
+
+#loginButton {
+  position: absolute;
+  width: 75px;
+  border: solid;
+  background-color: transparent;
+  right: 38%;
+  margin-top: 35px;
+}
+
+#loginButton:hover {
+  background-color: red;
+}
