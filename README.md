@@ -1,4 +1,5 @@
 # projeto-backend
+AS ATIVIDADES FEITAS EM AULA ESTÃO EM OUTRA BRANCH!!  <br />
 meu projeto final para a disciplina de programação web-back end. por ser um assunto que gosto, decidi fazer uma Pokédex.
 a ênfase do projeto final da disciplina é a lógica da manipulação dos dados no banco, bem como a estrutura do projeto e a lógica de programação empregada
 na criação de rotas e etc. para isso tudo isso, utilizei do: <br /> Node.JS, Express.js, e Sequelize.js (ligado ao POSTGRES.)
